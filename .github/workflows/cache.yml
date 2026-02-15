@@ -1,0 +1,26 @@
+name: Cache
+on: [push, workflow_dispatch]
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: cache-fba6376
+
+      - name: prime-cache-fba6376
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+            echo "Cache miss, priming cache..."
+            mkdir -p ~/.cache/pip
+            echo "Priming cache content" > ~/.cache/pip/dummy.txt
+
+      - name: Report Cache Status
+        run: |
+          echo "Cache Hit: ${{ steps.cache.outputs.cache-hit }}"
