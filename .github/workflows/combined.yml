@@ -1,0 +1,30 @@
+name: Combined Workflow
+on: [push, workflow_dispatch]
+jobs:
+  test-and-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step for Email Requirement
+      - name: 23f2004343@ds.study.iitm.ac.in
+        run: echo "Hello from email step"
+
+      # Step for Cache Requirement
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: cache-fba6376
+
+      - name: prime-cache-fba6376
+        run: |
+            echo "Cache miss, priming cache..."
+            mkdir -p ~/.cache/pip
+            echo "Priming cache content" > ~/.cache/pip/dummy.txt
+
+      - name: Report Cache Status
+        run: |
+          echo "Cache Hit: ${{ steps.cache.outputs.cache-hit }}"
