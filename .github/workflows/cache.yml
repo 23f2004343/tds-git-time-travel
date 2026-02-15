@@ -15,7 +15,7 @@ jobs:
           key: cache-fba6376
 
       - name: prime-cache-fba6376
-        if: steps.cache.outputs.cache-hit != 'true'
+
         run: |
             echo "Cache miss, priming cache..."
             mkdir -p ~/.cache/pip
